@@ -28,7 +28,7 @@ const createApp = (): Express => {
   app.get('/', (_req, res) => {
     res.status(200).json({
       success: true,
-      message: 'Topscorer backend is running',
+      message: 'Vishwas backend is running',
       api: '/api',
       health: '/health',
     });
@@ -38,7 +38,7 @@ const createApp = (): Express => {
   app.get('/api', (_req, res) => {
     res.status(200).json({
       success: true,
-      message: 'Topscorer backend API is running',
+      message: 'Vishwas backend API is running',
       health: '/health',
     });
   });
