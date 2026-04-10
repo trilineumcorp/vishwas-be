@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_controller_1 = require("./auth.controller");
+const auth_schema_1 = require("./auth.schema");
+const validation_middleware_1 = require("../../middlewares/validation.middleware");
+const auth_middleware_1 = require("../../middlewares/auth.middleware");
+const role_middleware_1 = require("../../middlewares/role.middleware");
+const router = (0, express_1.Router)();
+const role_middleware_2 = require("../../middlewares/role.middleware");
+router.post('/register', (0, validation_middleware_1.validateRequest)(auth_schema_1.registerSchema), auth_controller_1.authController.register.bind(auth_controller_1.authController));
+router.post('/login', (0, validation_middleware_1.validateRequest)(auth_schema_1.loginSchema), auth_controller_1.authController.login.bind(auth_controller_1.authController));
+router.post('/refresh-token', (0, validation_middleware_1.validateRequest)(auth_schema_1.refreshTokenSchema), auth_controller_1.authController.refreshToken.bind(auth_controller_1.authController));
+router.post('/forgot-password', (0, validation_middleware_1.validateRequest)(auth_schema_1.forgotPasswordSchema), auth_controller_1.authController.forgotPassword.bind(auth_controller_1.authController));
+router.post('/reset-password', (0, validation_middleware_1.validateRequest)(auth_schema_1.resetPasswordSchema), auth_controller_1.authController.resetPassword.bind(auth_controller_1.authController));
+router.get('/me', auth_middleware_1.authenticate, auth_controller_1.authController.getCurrentUser.bind(auth_controller_1.authController));
+router.put('/me', auth_middleware_1.authenticate, (0, validation_middleware_1.validateRequest)(auth_schema_1.updateProfileSchema), auth_controller_1.authController.updateProfile.bind(auth_controller_1.authController));
+router.put('/change-password', auth_middleware_1.authenticate, (0, validation_middleware_1.validateRequest)(auth_schema_1.changePasswordSchema), auth_controller_1.authController.changePassword.bind(auth_controller_1.authController));
+router.get('/users', auth_middleware_1.authenticate, (0, role_middleware_1.roleMiddleware)(['admin']), auth_controller_1.authController.getAllUsers.bind(auth_controller_1.authController));
+router.put('/users/:studentId', auth_middleware_1.authenticate, (0, role_middleware_1.roleMiddleware)(['admin']), auth_controller_1.authController.updateStudentByAdmin.bind(auth_controller_1.authController));
+exports.default = router;
+//# sourceMappingURL=auth.routes.js.map
